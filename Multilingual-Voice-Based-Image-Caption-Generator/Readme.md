@@ -1,4 +1,4 @@
-# Multilingual Voice-Based System
+# Multilingual Voice-Based Image Caption Generator
 
 ## Overview
 This project focuses on developing a multilingual voice-based system that enables real-time translation and interaction using multiple languages.

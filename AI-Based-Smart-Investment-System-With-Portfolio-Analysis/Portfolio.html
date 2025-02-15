@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Investment Portfolio</title>
+    
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            position: relative; /* Ensure children can be positioned absolutely */
+            background: url('1.jpeg') center/cover no-repeat;
+            height: 70vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: #fff;
+            padding: 1rem; /* Existing padding */
+            padding-top: 1rem; /* Added padding to move the image down */
+        }
+
+        .hero-text h1 {
+            font-size: 3rem;
+            color: #040303;
+            font-size: 50px;
+        }
+        
+        .hero-text p {
+            font-size: 1.5rem;
+            margin-top: 0.5rem;
+            color: #040303;
+            font-size: 50px;
+        }
+        
+        .hero-section h1,
+        .hero-section p {
+            margin-top: -2rem; /* Adjust to move text upward */
+        }
+
+        .hero-section {
+    position: relative; /* Ensure children can be positioned absolutely */
+    background: url('1.jpeg') center/cover no-repeat;
+    height: 70vh;
+    display: flex;
+    flex-direction: column; /* Align children in a column */
+    justify-content: center; /* Center vertically */
+    align-items: center; /* Center horizontally */
+    text-align: center;
+    color: #fff;
+    padding: 1rem; /* Existing padding */
+}
+.logo-container {
+    position: absolute; /* Positioning over the hero section */
+    top: 10px; /* Adjust as needed for spacing from the top */
+    right: 20px; /* Adjust as needed for spacing from the right */
+}
+.company-logo {
+    display: block; /* Makes the image a block element */
+    margin: 0 auto; /* Centers the logo horizontally */
+    max-width: 300px; /* Adjusts the logo size */
+    position: absolute; /* Position the logo absolutely */
+    top: 80px; /* Adjust this value to move the logo down */
+    left: 50%; /* Center horizontally */
+    transform: translateX(-50%); /* Shift left by 50% of its own width */
+}
+
+.hero-nav-menu {
+    position: absolute; /* Positioning over the hero section */
+    top: 200px; /* Adjust this value as needed to move it down from the top */
+    left: 30px; /* Adjust this value as needed to move it right from the left */
+    display: flex;
+    flex-direction: column; /* Arrange buttons vertically */
+    gap: 10px; /* Space between buttons */
+}
+
+.hero-nav-menu .nav-button {
+    background-color: rgba(39, 122, 223, 0.246); /* Semi-transparent background */
+    color: #ffffff; /* Button text color */
+    padding: 10px 15px; /* Button padding */
+    text-decoration: none; /* Remove underline */
+    border-radius: 5px; /* Rounded corners */
+    font-size: 1.5rem; /* Button font size */
+    transition: background-color 0.3s; /* Transition for hover effect */
+}
+
+.hero-nav-menu .nav-button:hover {
+    background-color: rgba(29, 92, 163, 0.9); /* Darker color on hover */
+}
+
+
+.services-title {
+    color: #ffffff; /* Change to your preferred color */
+    font-size: 1.8rem; /* Adjust font size as needed */
+    margin-bottom: 10px; /* Space between the heading and buttons */
+}
+        /* Features Section */
+        .features-section {
+            display: flex;
+            justify-content: space-around;
+            margin: 2rem auto;
+            padding: 2rem;
+            max-width: 1200px;
+        }
+
+        .feature-card {
+            background: #f9f9f9;
+            border-radius: 10px;
+            padding: 1.5rem;
+            text-align: center;
+            width: 30%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-card h2 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-card p {
+            font-size: 1.1rem;
+            margin-top: 0.5rem;
+        }
+
+        /* Call-to-Action Button */
+        .cta-footer {
+            text-align: center;
+            padding: 2rem;
+            background: #fff;
+        }
+
+        .cta-button {
+            background-color: #0047AB;
+            color: #fff;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 25px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .cta-button:hover {
+            background-color: #003580;
+        }
+
+        
+    
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <header class="hero-section">
+        <img src="logo.png" alt="Company Logo" class="company-logo">
+        <div class="hero-text">
+            <h1>The Science of Investing</h1>
+            <p>State of the Art Asset Allocation and Risk Management</p>
+        </div>
+        <!-- Navigation Buttons on Hero Section -->
+        <nav class="hero-nav-menu">
+            <h2 class="services-title">Services</h2>
+            <a href="http://127.0.0.1:5000" class="nav-button">Smart Investment Plan</a>
+            <a href="loan.html" class="nav-button" id="loanManagementButton">Loan Management</a>
+            <a href="http://127.0.0.1:5000" class="nav-button">Market Visualization</a>
+            <a href="dashboard.html" class="nav-button" id="AnalyticsDashboardButton">Analytics Dashboard</a>
+        </nav>
+    </header>
+
+    <!-- Features Section -->
+    <section class="features-section">
+        <div class="feature-card">
+            <div class="icon">📈</div>
+            <h2>Up Your Game</h2>
+            <p>Invest Using The Best-of-Breed Science</p>
+            <p>Smart Portfolios™ uses advanced science for superior asset allocation models, aiming for accurate risk assessment and expected returns.</p>
+        </div>
+        <div class="feature-card">
+            <div class="icon">💡</div>
+            <h2>Invest Intelligently</h2>
+            <p>Use advanced risk-managed investment strategies</p>
+            <p>Assess risk and optimize risk-adjusted returns using cutting-edge strategies and technology.</p>
+        </div>
+        <div class="feature-card">
+            <div class="icon">🎯</div>
+            <h2>Strategize Better</h2>
+            <p>With Smart Portfolio's Dynamic Portfolio Optimization™</p>
+            <p>Manage risk at each step, from investment selection to full portfolio design, using proprietary tools.</p>
+        </div>
+    </section>
+
+    <!-- Call-to-Action Footer -->
+    <footer class="cta-footer">
+        <button class="cta-button">Request Advice</button>
+    </footer>
+</body>
+</html>

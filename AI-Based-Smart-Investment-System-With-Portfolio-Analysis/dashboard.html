@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real-Time Stock Market Dashboard</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Roboto', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fb;
+            color: #333;
+        }
+
+        .dashboard {
+            max-width: 1200px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        header {
+            background: linear-gradient(135deg, #4CAF50, #2E7D32);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2em;
+            font-weight: bold;
+        }
+
+        main {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+            gap: 20px;
+        }
+
+        .watchlist, .stock-details {
+            background-color: white;
+            padding: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            flex: 1;
+        }
+
+        .watchlist {
+            max-width: 40%;
+        }
+
+        .stock-details {
+            max-width: 55%;
+        }
+
+        .search-section {
+            margin-top: 20px;
+            background-color: white;
+            padding: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+
+        h2 {
+            margin-top: 0;
+            font-size: 1.5em;
+            color: #4CAF50;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+            position: relative;
+            font-size: 1em;
+        }
+
+        li:hover {
+            background-color: #f0f2f5;
+        }
+
+        li button {
+            display: none;
+            position: absolute;
+            right: 10px;
+            top: 10px;
+            background-color: #e53935;
+            color: white;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        li:hover button {
+            display: block;
+        }
+
+        #stock-info {
+            font-size: 1.2em;
+            color: #444;
+        }
+
+        #search {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            font-size: 1em;
+        }
+
+        #stock-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        #stock-table th, #stock-table td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+
+        #stock-table th {
+            background-color: #4CAF50;
+            color: white;
+            font-weight: bold;
+        }
+
+        #stock-table td {
+            font-size: 0.9em;
+        }
+
+        #stock-table tr:hover {
+            background-color: #f9f9f9;
+        }
+
+        .positive {
+            color: #388E3C;
+            font-weight: bold;
+        }
+
+        .negative {
+            color: #D32F2F;
+            font-weight: bold;
+        }
+
+        button {
+            padding: 5px 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9em;
+        }
+
+        button.add {
+            background-color: #388E3C;
+            color: white;
+        }
+
+        button.remove {
+            background-color: #D32F2F;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <header>
+            <h1>Real-Time Stock Market Dashboard</h1>
+        </header>
+        <main>
+            <div class="watchlist">
+                <h2>Watchlist</h2>
+                <ul id="watchlist">
+                    <!-- Watchlist items will be dynamically added here -->
+                </ul>
+            </div>
+            <div class="stock-details">
+                <h2>Stock Details</h2>
+                <div id="stock-info">
+                    <!-- Stock details will be displayed here -->
+                </div>
+            </div>
+        </main>
+        <section class="search-section">
+            <input type="text" id="search" placeholder="Search for stocks...">
+            <table id="stock-table">
+                <thead>
+                    <tr>
+                        <th>Stock Symbol</th>
+                        <th>Price</th>
+                        <th>Change</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Stock list will be dynamically added here -->
+                </tbody>
+            </table>
+        </section>
+    </div>
+    <script>
+        const API_KEY = 'UN1Q2J21OWTA8BZW'; // Replace with your Alpha Vantage API key
+        const baseURL = 'https://www.alphavantage.co/query';
+        const watchlist = document.getElementById('watchlist');
+        const stockTableBody = document.querySelector('#stock-table tbody');
+        const searchInput = document.getElementById('search');
+        const watchlistStocks = [];
+
+        async function fetchStock(symbol) {
+    try {
+        const response = await fetch(`${baseURL}?function=GLOBAL_QUOTE&symbol=${symbol}&apikey=${API_KEY}`);
+        const data = await response.json();
+        
+        // Debugging: Log the response for better error checking
+        console.log(data);
+        
+        if (data['Error Message']) {
+            throw new Error('Invalid symbol or API issue.');
+        }
+        
+        const quote = data['Global Quote'];
+        if (quote) {
+            return {
+                symbol: quote['01. symbol'],
+                price: parseFloat(quote['05. price']),
+                change: parseFloat(quote['10. change percent'].replace('%', '')),
+            };
+        } else {
+            throw new Error('No data available for the given symbol.');
+        }
+    } catch (error) {
+        console.error('Error fetching stock:', error);
+        alert('Error fetching stock data. Please check the symbol or try again later.');
+        return null;
+    }
+}
+
+async function searchStocks(query) {
+    try {
+        const response = await fetch(`${baseURL}?function=SYMBOL_SEARCH&keywords=${query}&apikey=${API_KEY}`);
+        const data = await response.json();
+        
+        // Debugging: Log the search response
+        console.log(data);
+        
+        if (data['Error Message']) {
+            throw new Error('API issue during search.');
+        }
+        
+        return data.bestMatches.map(stock => ({
+            symbol: stock['1. symbol'],
+            name: stock['2. name'],
+        }));
+    } catch (error) {
+        console.error('Error searching stocks:', error);
+        alert('Error searching stocks. Please try again later.');
+        return [];
+    }
+}
+
+        async function searchStocks(query) {
+            try {
+                const response = await fetch(`${baseURL}?function=SYMBOL_SEARCH&keywords=${query}&apikey=${API_KEY}`);
+                const data = await response.json();
+                if (data['Error Message']) {
+                    throw new Error('API issue during search.');
+                }
+                return data.bestMatches.map(stock => ({
+                    symbol: stock['1. symbol'],
+                    name: stock['2. name'],
+                }));
+            } catch (error) {
+                console.error('Error searching stocks:', error);
+                alert('Error searching stocks. Please try again later.');
+                return [];
+            }
+        }
+
+        function renderWatchlist() {
+            watchlist.innerHTML = '';
+            watchlistStocks.forEach(stock => {
+                const li = document.createElement('li');
+                li.textContent = `${stock.symbol} - $${stock.price}`;
+                const removeButton = document.createElement('button');
+                removeButton.textContent = 'Remove';
+                removeButton.classList.add('remove');
+                removeButton.addEventListener('click', () => {
+                    const index = watchlistStocks.findIndex(s => s.symbol === stock.symbol);
+                    watchlistStocks.splice(index, 1);
+                    renderWatchlist();
+                });
+                li.appendChild(removeButton);
+                watchlist.appendChild(li);
+            });
+        }
+
+        async function updateStockTable(query) {
+            const results = await searchStocks(query);
+            stockTableBody.innerHTML = '';
+            for (const stock of results) {
+                const stockDetails = await fetchStock(stock.symbol);
+                if (stockDetails) {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${stock.symbol}</td>
+                        <td>${stockDetails.price}</td>
+                        <td class="${stockDetails.change >= 0 ? 'positive' : 'negative'}">${stockDetails.change}%</td>
+                        <td>
+                            <button class="add">Add</button>
+                        </td>`;
+                    row.querySelector('.add').addEventListener('click', () => {
+                        watchlistStocks.push(stockDetails);
+                        renderWatchlist();
+                    });
+                    stockTableBody.appendChild(row);
+                }
+            }
+        }
+
+        searchInput.addEventListener('input', event => {
+            const query = event.target.value;
+            if (query) {
+                updateStockTable(query);
+            } else {
+                stockTableBody.innerHTML = '';
+            }
+        });
+    </script>
+</body>
+</html>

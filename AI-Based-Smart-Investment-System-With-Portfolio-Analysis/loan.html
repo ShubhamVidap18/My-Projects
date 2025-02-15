@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loan Management System</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #1e3c72, #2a5298, #6dd5ed);
+            color: #fff;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            text-shadow: 0px 0px 10px rgba(255, 255, 255, 0.5);
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            width: 90%;
+            max-width: 600px;
+        }
+
+        .slider-container {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        label {
+            font-size: 1.1rem;
+        }
+
+        .slider {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 100%;
+            height: 8px;
+            background: linear-gradient(90deg, #6a11cb 0%, #2575fc 100%);
+            border-radius: 5px;
+            outline: none;
+            opacity: 0.9;
+            transition: opacity 0.3s;
+        }
+
+        .slider:hover {
+            opacity: 1;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            background: #fff;
+            border-radius: 50%;
+            box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+        }
+
+        .slider::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            background: #fff;
+            border-radius: 50%;
+            box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+        }
+
+        .output {
+            font-size: 1.4rem;
+            font-weight: bold;
+            margin-top: 1rem;
+            text-align: center;
+            background: linear-gradient(90deg, #ff512f, #dd2476);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            box-shadow: 0px 4px 15px rgba(255, 81, 47, 0.5);
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <h1>Loan Management System</h1>
+    <div class="container">
+        <!-- Loan Amount Slider -->
+        <div class="slider-container">
+            <label for="loanAmount">Loan Amount (₹)</label>
+            <input type="range" id="loanAmount" min="100000" max="5000000" step="10000" class="slider">
+            <div id="loanAmountOutput">₹1,00,000</div>
+        </div>
+        
+        <!-- Down Payment Slider -->
+        <div class="slider-container">
+            <label for="downPayment">Down Payment (₹)</label>
+            <input type="range" id="downPayment" min="0" max="1000000" step="10000" class="slider">
+            <div id="downPaymentOutput">₹0</div>
+        </div>
+        
+        <!-- Interest Rate Slider -->
+        <div class="slider-container">
+            <label for="interestRate">Interest Rate (%)</label>
+            <input type="range" id="interestRate" min="5" max="15" step="0.1" class="slider">
+            <div id="interestRateOutput">5%</div>
+        </div>
+        
+        <!-- Loan Tenure Slider -->
+        <div class="slider-container">
+            <label for="loanTenure">Loan Tenure (Years)</label>
+            <input type="range" id="loanTenure" min="1" max="7" step="1" class="slider">
+            <div id="loanTenureOutput">1 Year</div>
+        </div>
+
+        <!-- Output for EMI -->
+        <div class="output" id="emiOutput">EMI per month: ₹0</div>
+    </div>
+
+    <script>
+        // Initialize variables
+        const loanAmountSlider = document.getElementById("loanAmount");
+        const downPaymentSlider = document.getElementById("downPayment");
+        const interestRateSlider = document.getElementById("interestRate");
+        const loanTenureSlider = document.getElementById("loanTenure");
+
+        const loanAmountOutput = document.getElementById("loanAmountOutput");
+        const downPaymentOutput = document.getElementById("downPaymentOutput");
+        const interestRateOutput = document.getElementById("interestRateOutput");
+        const loanTenureOutput = document.getElementById("loanTenureOutput");
+        const emiOutput = document.getElementById("emiOutput");
+
+        // Function to calculate EMI
+        function calculateEMI() {
+            const loanAmount = parseInt(loanAmountSlider.value);
+            const downPayment = parseInt(downPaymentSlider.value);
+            const interestRate = parseFloat(interestRateSlider.value);
+            const loanTenure = parseInt(loanTenureSlider.value);
+
+            const principal = loanAmount - downPayment;
+            const monthlyRate = interestRate / (12 * 100); // Monthly interest rate
+            const months = loanTenure * 12;
+
+            const emi = principal * monthlyRate * (Math.pow(1 + monthlyRate, months) / (Math.pow(1 + monthlyRate, months) - 1));
+
+            emiOutput.innerText = `EMI per month: ₹${emi.toFixed(2)}`;
+        }
+
+        // Event listeners for sliders
+        loanAmountSlider.oninput = function() {
+            loanAmountOutput.innerText = `₹${parseInt(this.value).toLocaleString()}`;
+            calculateEMI();
+        };
+
+        downPaymentSlider.oninput = function() {
+            downPaymentOutput.innerText = `₹${parseInt(this.value).toLocaleString()}`;
+            calculateEMI();
+        };
+
+        interestRateSlider.oninput = function() {
+            interestRateOutput.innerText = `${parseFloat(this.value).toFixed(1)}%`;
+            calculateEMI();
+        };
+
+        loanTenureSlider.oninput = function() {
+            loanTenureOutput.innerText = `${this.value} Year${this.value > 1 ? 's' : ''}`;
+            calculateEMI();
+        };
+
+        // Initial calculation
+        calculateEMI();
+    </script>
+</body>
+</html>

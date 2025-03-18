@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sanskrit Translator</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+Bhaina+2:wght@400;600&family=Gloock&display=swap" rel="stylesheet">
+    <!-- Lottie Player -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.0/lottie.min.js"></script>
+    <!-- Custom Styles -->
+    <style>
+        body {
+            font-family: 'Baloo Bhaina 2', cursive;
+            background: linear-gradient(135deg, #D6A96F, #9E7A42); /* Warm traditional gradient */
+            margin: 0;
+            padding: 0;
+            overflow: hidden; /* Prevent page scrollbar */
+            font-family: 'Baloo Bhaina 2', cursive;
+            background-image: url('https://plus.unsplash.com/premium_photo-1691763916216-d64cfad0f42e?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8c2Fuc2tyaXR8ZW58MHx8MHx8fDA%3D'); /* Add your image here */
+            background-size: cover;
+            background-position: center center;
+            background-attachment: fixed;
+            
+        }
+
+        /* Background Animation Layer */
+        .background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            margin-top: 11%;
+            animation: fadeIn 1.5s ease-in-out;
+            border: 2px solid #C27C28; /* Traditional gold border */
+          
+        }
+
+        h1 {
+            font-family: 'Gloock', serif;
+            text-align: center;
+            color: #6A4E23; /* Earthy brown color */
+            font-size: 3rem;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        label {
+            font-weight: bold;
+            color: #6A4E23; /* Earthy brown color */
+        }
+
+        select, textarea, button {
+            border-radius: 5px;
+        }
+
+        button {
+            background-color: #C27C28; /* Golden color */
+            color: white;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+            border: 2px solid #6A4E23;
+        }
+
+        button:hover {
+            background-color: #A56B2F; /* Darker gold on hover */
+            border-color: #6A4E23;
+        }
+
+        /* Scrollable translation box */
+        .translation {
+            margin-top: 20px;
+            padding: 15px;
+            background: #fff3cd;
+            border-left: 5px solid #ffca28; /* Bright gold accent */
+            border-radius: 5px;
+            max-height: 300px; /* Restrict height */
+            overflow-y: auto; /* Add scroll functionality */
+            animation: slideIn 1s ease-in-out;
+        }
+
+        /* Scrollbar Styling */
+        .translation::-webkit-scrollbar {
+            width: 8px;
+        }
+        .translation::-webkit-scrollbar-thumb {
+            background-color: #ffc107;
+            border-radius: 4px;
+        }
+        .translation::-webkit-scrollbar-thumb:hover {
+            background-color: #e0a800;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .container h3 {
+            color: #5c4033; /* Subtle earthy tone */
+        }
+
+        .container p {
+            font-size: 1.1rem;
+            color: #3e2723; /* Deep brown text */
+        }
+    </style>
+</head>
+<body>
+    <!-- Background Animation Layer -->
+    <div class="background" id="background"></div>
+
+    <!-- Main Content -->
+    <div class="container shadow-lg">
+        <h1>Sanskrit Translator</h1>
+        <form method="POST">
+            <div class="mb-3">
+                <label for="sanskrit_text">Enter Sanskrit Text:</label>
+                <textarea id="sanskrit_text" name="sanskrit_text" class="form-control" rows="4" placeholder="Type Sanskrit text here..." required></textarea>
+            </div>
+
+            <div class="mb-3">
+                <label for="language">Select Language:</label>
+                <select id="language" name="language" class="form-select" required>
+                    <option value="english">English</option>
+                    <option value="hindi">Hindi</option>
+                    <option value="marathi">Marathi</option>
+                    <option value="telugu">Telugu</option>
+                    <option value="kannada">Kannada</option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn btn-dark w-100">Translate</button>
+        </form>
+
+        {% if translation %}
+        <div class="translation mt-4">
+            <h3 class="fw-bold">Sanskrit Shlok:</h3>
+            <p class="fw-bold text-primary">{{ sanskrit_text }}</p> <!-- Display the entered Sanskrit text -->
+            <hr>
+            <h3 class="fw-bold">Translation:</h3>
+            <p>{{ translation }}</p> <!-- Display the translation -->
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Lottie Animation Scripts -->
+    <script>
+        // Add animated tools like bow, arrow, chakra
+        const background = document.getElementById('background');
+
+        // Array of tool animations (bow, arrow, chakra, etc.)
+        const animations = [
+            { path: 'https://assets8.lottiefiles.com/packages/lf20_5u5oqbsw.json', top: '10%', left: '20%' },
+            { path: 'https://assets7.lottiefiles.com/packages/lf20_N3AIaG.json', top: '30%', left: '60%' },
+            { path: 'https://assets6.lottiefiles.com/packages/lf20_NaNbNU.json', top: '70%', left: '40%' }
+        ];
+
+        animations.forEach((anim, index) => {
+            const div = document.createElement('div');
+            div.style.position = 'absolute';
+            div.style.top = anim.top;
+            div.style.left = anim.left;
+            div.style.width = '200px';
+            div.style.height = '200px';
+
+            background.appendChild(div);
+
+            lottie.loadAnimation({
+                container: div,
+                renderer: 'svg',
+                loop: true,
+                autoplay: true,
+                path: anim.path // Lottie animation JSON file
+            });
+        });
+    </script>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

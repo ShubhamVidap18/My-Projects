@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sanskrit Translation Result</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+Bhaina+2:wght@400;600&family=Gloock&display=swap" rel="stylesheet">
+    <!-- Custom Styles -->
+    <style>
+        body {
+            font-family: 'Baloo Bhaina 2', cursive;
+            background-color: #f4f4f4;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            margin-top: 50px;
+        }
+        h1 {
+            font-family: 'Gloock', serif;
+            text-align: center;
+            color: #4a2e14;
+            font-size: 2.5rem;
+        }
+        label {
+            font-weight: bold;
+            color: #4a2e14;
+        }
+        .translation {
+            margin-top: 20px;
+            padding: 15px;
+            background: #fff3cd;
+            border-left: 5px solid #ffc107;
+            border-radius: 5px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        body {
+            font-family: 'Baloo Bhaina 2', cursive;
+            background-image: url('https://plus.unsplash.com/premium_photo-1691763916216-d64cfad0f42e?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8c2Fuc2tyaXR8ZW58MHx8MHx8fDA%3D'); /* Add your image here */
+            background-size: cover;
+            background-position: center center;
+            background-attachment: fixed;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container shadow-lg">
+        <h1>Sanskrit Translation Result</h1>
+        
+        <div class="mb-3">
+            <label for="sanskrit_text">Original Sanskrit Text:</label>
+            <p>{{ sanskrit_text }}</p>
+        </div>
+
+        <div class="mb-3">
+            <label for="translation">Translated Text:</label>
+            {{ translation | safe}}
+        </div>
+        
+        <a href="/" class="btn btn-dark w-100 mt-4">Go Back</a>
+    </div>
+</body>
+</html>
